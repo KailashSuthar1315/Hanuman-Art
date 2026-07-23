@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>About Us - Hanuman Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=1.4">
+    
+    <style>
+        /* ================= ABOUT PAGE CORE BASICS (DESKTOP) ================= */
+        .about-page-bg {
+            background-color: #fcfbfa;
+            padding: 60px 0 90px;
+        }
+
+        .about-story-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 70px;
+        }
+
+        .about-story-text h2 {
+            font-family: 'Lora', serif;
+            font-size: 2.2rem;
+            color: #1a0f08;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .about-story-text p {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .about-story-text .highlight-quote {
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #b38642;
+            border-left: 3px solid #b38642;
+            padding-left: 20px;
+            margin: 25px 0;
+        }
+
+        .about-image-frame {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .about-image-frame img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Stats Row Counter layout blocks */
+        .about-stats-matrix {
+            background-color: #1a0f08;
+            color: #ffffff;
+            padding: 50px 0;
+            border-top: 4px solid #b38642;
+            margin-bottom: 70px;
+        }
+
+        .stats-matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .matrix-stat-box i {
+            color: #b38642;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .matrix-stat-box h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .matrix-stat-box p {
+            font-size: 0.85rem;
+            color: #cccccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Core Values Block Elements */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .value-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            padding: 35px 25px;
+            border-radius: 4px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .value-card:hover { transform: translateY(-5px); }
+
+        .value-card-icon {
+            width: 55px;
+            height: 55px;
+            background-color: #fafaf9;
+            border: 1px solid #b38642;
+            color: #b38642;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin: 0 auto 20px;
+        }
+
+        .value-card h4 {
+            font-size: 1.1rem;
+            color: #1a0f08;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .value-card p {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* ================= PREMIUM DROPDOWN NAVBAR STYLES ================= */
+        .nav-menu ul li.dropdown {
+            position: relative;
+        }
+
+        .nav-menu ul li .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(15px);
+            background-color: #120d0a;
+            border: 1px solid #231b15;
+            border-top: 2px solid #8b6b3d;
+            min-width: 210px;
+            padding: 8px 0;
+            list-style: none;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            z-index: 100000;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            border-radius: 0 0 4px 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu ul li.dropdown:hover .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .nav-menu ul li .dropdown-menu li a {
+            color: #eae5df !important;
+            padding: 10px 20px !important;
+            display: block !important;
+            font-size: 0.82rem !important;
+            font-weight: 400 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+            text-align: left !important;
+            border: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .nav-menu ul li .dropdown-menu li a:hover {
+            color: #ffffff !important;
+            background-color: #8b6b3d !important;
+            padding-left: 25px !important;
+        }
+
+        .nav-menu ul li.dropdown a i {
+            font-size: 0.72rem;
+            margin-left: 4px;
+            transition: transform 0.3s ease;
+        }
+        .nav-menu ul li.dropdown:hover > a i {
+            transform: rotate(180deg);
+            color: #8b6b3d;
+        }
+
+        /* ================= ADVANCED RESPONSIVE ENGINE (MOBILE FIXES) ================= */
+        @media (max-width: 992px) {
+            .about-story-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-image-frame img {
+                height: 350px;
+            }
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-page-bg {
+                padding: 40px 0 40px;
+            }
+
+            .about-story-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .about-story-text p {
+                font-size: 0.9rem;
+            }
+
+            /* Stack layout metrics horizontally into independent single rows */
+            .stats-matrix-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .matrix-stat-box h3 {
+                font-size: 2.2rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .value-card {
+                padding: 25px 20px;
+            }
+
+            .main-header {
+                z-index: 999990 !important;
+            }
+
+            .mobile-menu-toggle {
+                display: block !important;
+                position: relative !important;
+                z-index: 999999 !important;
+                background: transparent !important;
+                border: none !important;
+                color: #b38642 !important;
+                font-size: 1.75rem !important;
+                cursor: pointer !important;
+                padding: 10px !important;
+            }
+
+            .nav-menu {
+                position: fixed !important;
+                top: 0 !important;
+                right: -100% !important;
+                width: 280px !important;
+                height: 100vh !important;
+                background-color: rgba(26, 15, 8, 0.98) !important;
+                backdrop-filter: blur(10px) !important;
+                -webkit-backdrop-filter: blur(10px) !important;
+                padding: 100px 30px 40px !important;
+                box-shadow: -5px 0 25px rgba(0,0,0,0.5) !important;
+                z-index: 999995 !important;
+                display: block !important;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+                overflow-y: auto !important;
+            }
+
+            .nav-menu.active {
+                right: 0 !important;
+            }
+
+            .nav-menu ul {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 15px !important;
+                display: flex !important;
+            }
+
+            .nav-menu a {
+                font-size: 1.1rem !important;
+                color: #ffffff !important;
+                display: block !important;
+                width: 100% !important;
+                padding: 10px 0 !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            }
+
+            /* 🛠️ FIXED INTERNAL CSS OVERRIDE TO SECURE ACCORDION INITIALIZATION */
+            .nav-menu ul li .dropdown-menu {
+                position: relative !important; 
+                top: 0 !important; 
+                left: 0 !important; 
+                transform: none !important; 
+                display: none !important; 
+                visibility: hidden !important;
+                opacity: 0 !important; 
+                background-color: rgba(255, 255, 255, 0.03) !important;
+                border: none !important; 
+                border-left: 2px solid #8b6b3d !important; 
+                box-shadow: none !important;
+                padding: 5px 0 5px 15px !important;
+                margin-top: 10px !important;
+                min-width: auto !important;
+                width: 100% !important;
+            }
+
+            /* 🛠️ BIND REVEAL RULES TO SCRIPTS TARGET HELPER */
+            .nav-menu ul li.dropdown.open-active .dropdown-menu {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+
+            .nav-menu ul li .dropdown-menu li a {
+                padding: 6px 0 !important;
+                font-size: 0.9rem !important;
+                color: #cccccc !important;
+                text-transform: capitalize !important;
+            }
+
+            .hero-section .hero-content {
+                padding-top: 110px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>HANUMAN ART</h1>
+                    <p>Handcrafted Wooden Furniture</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="mobileNavMenu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li class="dropdown">
+                        <a href="products.html" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            PRODUCTS 
+                            <span class="mobile-arrow-trigger" style="padding: 10px 15px; margin-left: auto; display: inline-block; cursor: pointer;">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="beds.html">Luxury Beds</a></li>
+                            <li><a href="sofas.html">Sofa Sets</a></li>
+                            <li><a href="dining.html">Dining Sets</a></li>
+                            <li><a href="chairs.html">Premium Chairs</a></li>
+                            <li><a href="doors.html">Carved Doors</a></li>
+                            <li><a href="wardrobes.html">Wardrobes & Almirahs</a></li>
+                            <li><a href="dressing.html">Dressing Tables</a></li>
+                            <li><a href="sideboards.html">Sideboards & Consoles</a></li>
+                            <li><a href="coffee-tables.html">Center Tables</a></li>
+                            <li><a href="custom-orders.html">Custom Orders</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html" class="active">ABOUT US</a></li>
+                    <li><a href="gallery.html">GALLERY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+            <a href="https://wa.me/918946871958" class="btn-whatsapp-top" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section" style="height: 30vh; background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/carpenter-bg.jpg'); background-size: cover; background-position: center;">
+        <div class="container hero-content" style="padding-top: 90px; text-align: center;">
+            <h4 style="color: var(--accent-gold); letter-spacing: 4px; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;">OUR LEGACY</h4>
+            <h2 style="font-size: 2.4rem; letter-spacing: 1px; color: #fff; font-family: var(--font-heading);">THE STORY OF HANUMAN ART</h2>
+            <div style="width: 40px; height: 2px; background: var(--accent-gold); margin: 0 auto; margin-top: 10px;"></div>
+        </div>
+    </section>
+
+    <div class="about-page-bg">
+        <div class="container">
+            
+            <div class="about-story-grid">
+                <div class="about-story-text">
+                    <h2>Handcrafting Masterpieces for Over 35 Years</h2>
+                    <p>Based out of the historic furniture hub of Jodhpur, Rajasthan, Hanuman Art has been dedicated to delivering high-quality, durable, and intricately carved wooden furniture. We specialize in working with seasoned premium timbers like Teak and Rosewood (Sheesham) to ensure generational longevity.</p>
+                    
+                    <div class="highlight-quote">
+                        "Quality, trust, and perfection are embedded into every single piece of wood that leaves our workshop floor."
+                    </div>
+                    
+                    <p>Whether it is traditional Indian carvings for architectural palace entries and royal pooja mandirs or elegant sleek minimalist furniture lines for modern luxury homes, our master artisans translate conceptual drawings into real-world landmarks.</p>
+                </div>
+                <div class="about-image-frame">
+                    <img src="images/pp.jpeg" alt="Hanuman Arts Wooden Workshop">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="about-stats-matrix">
+            <div class="container">
+                <div class="stats-matrix-grid">
+                    <div class="matrix-stat-box">
+                        <i class="fas fa-award"></i>
+                        <h3>35+</h3>
+                        <p>Years of Experience</p>
+                    </div>
+                    <div class="matrix-stat-box">
+                        <i class="fas fa-users"></i>
+                        <h3>1000+</h3>
+                        <p>Happy Homeowners</p>
+                    </div>
+                    <div class="matrix-stat-box">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>1000+</h3>
+                        <p>Bespoke Projects Completed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="section-title">
+                <h2 style="font-family: 'Lora', serif; text-align: center; color: #1a0f08;">OUR CORE PILLARS</h2>
+                <div class="divider" style="text-align: center; color: #b38642; margin-bottom: 30px;">♦</div>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-card-icon"><i class="fas fa-tree"></i></div>
+                    <h4>Premium Wood Selection</h4>
+                    <p>We source chemically treated and seasoned high-gauge timber to entirely negate warped cracks or moisture degradation fields over time.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-card-icon"><i class="fas fa-hammer"></i></div>
+                    <h4>Artisanal Detail Precision</h4>
+                    <p>Every relief carving pattern and flush-joint line is sculpted meticulously by hand, retaining pure Rajasthani craftsmanship heritage.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-card-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h4>Absolute Trust & Clarity</h4>
+                    <p>From initial blueprint sketch sign-offs to timber verification status updates, we maintain complete transparency across pricing matrices.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section style="background-color: #1a0f08; padding: 70px 0; border-top: 4px solid #b38642; color: #ffffff;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h4 style="letter-spacing: 4px; color: #b38642; text-transform: uppercase; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">THE FACES BEHIND THE CRAFT</h4>
+                <h2 style="font-family: 'Lora', serif; font-size: 2.2rem; color: #ffffff; font-weight: 700; margin: 0;">MEET OUR FOUNDERS</h2>
+                <div style="width: 50px; height: 2px; background: #b38642; margin: 15px auto 0;"></div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; align-items: stretch;">
+                
+                <div style="background: #23160e; border: 1px solid #2e1e14; border-radius: 4px; padding: 35px 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="width: 180px; height: 180px; margin: 0 auto 25px; border-radius: 4px; overflow: hidden; border: 2px solid #b38642; background: #1a0f08;">
+                            <img src="images/papa2.0.jpeg" alt="Ganga Ram Suthar - Master Craftsman" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <h3 style="font-family: 'Lora', serif; font-size: 1.35rem; color: #ffffff; margin-bottom: 5px; font-weight: 600;">Ganga Ram Suthar</h3>
+                        <p style="color: #b38642; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Owner & Head of Production </p>
+                        <p style="color: #cccccc; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                            With over 35 years of deep woodworking experience in Jodhpur, he personally inspects every single premium Teak and Sheesham board. He oversees the entire design verification process, ensuring structural perfection before any cutting or carving begins.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: #23160e; border: 1px solid #2e1e14; border-radius: 4px; padding: 35px 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="width: 180px; height: 180px; margin: 0 auto 25px; border-radius: 4px; overflow: hidden; border: 2px solid #b38642; background: #1a0f08;">
+                            <img src="images/Bhaiprofile.png" alt="Setharam Suthar - Customer & Operations Management" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <h3 style="font-family: 'Lora', serif; font-size: 1.35rem; color: #ffffff; margin-bottom: 5px; font-weight: 600;">Setharam Suthar</h3>
+                        <p style="color: #b38642; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Client Operations & Order Manager</p>
+                        <p style="color: #cccccc; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                            Setharam leads our primary client communication networks, managing project pipelines, active terminal estimates, and instant WhatsApp updates. He ensures your orders move securely from production runs to final delivery checkpoints.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: #23160e; border: 1px solid #2e1e14; border-radius: 4px; padding: 35px 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="width: 180px; height: 180px; margin: 0 auto 25px; border-radius: 4px; overflow: hidden; border: 2px solid #b38642; background: #1a0f08;">
+                            <img src="images/kk.jpeg" alt="Kailash Suthar - Tech & Design Lead" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <h3 style="font-family: 'Lora', serif; font-size: 1.35rem; color: #ffffff; margin-bottom: 5px; font-weight: 600;">Kailash Suthar</h3>
+                        <p style="color: #b38642; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Tech & Custom Orders Lead</p>
+                        <p style="color: #cccccc; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                            Kailash manages our technical design matrices, digital blueprints, and custom client requests. He bridges the gap between your custom Pinterest ideas and heavy-duty factory machine calibration.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <div class="logo-area">
+                    <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h2>HANUMAN ART</h2>
+                        <p>Handcrafted Wooden Furniture</p>
+                    </div>
+                </div>
+                <p class="footer-desc">Quality, trust and perfection in every piece of wood.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61591804678065"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/hanuman_art_furniture/?hl=en"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/918946871958"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>OUR PRODUCTS</h3>
+                <ul>
+                    <li><a href="beds.html">Beds</a></li>
+                    <li><a href="sofas.html">Sofas</a></li>
+                    <li><a href="dining.html">Dining Tables</a></li>
+                    <li><a href="chairs.html">Chairs</a></li>
+                    <li><a href="custom-orders.html">Custom Furniture</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>CONTACT US</h3>
+                <p><i class="fas fa-phone-alt"></i> +91 93515 82983</p>
+                <p><i class="fas fa-phone-alt"></i> +91 8946871958</p>
+                <p><i class="fab fa-whatsapp"></i> +91 8946871958</p>
+                <p><i class="fas fa-map-marker-alt"></i>Behind H/180, Riico Industrial Area, Mandore, Jodhpur, Rajasthan</p>
+                <p><i class="fas fa-envelope"></i> hanumanart1990@gmail.com</p>
+            </div>
+
+            <div class="footer-col map-col">
+                <h3>VISIT US</h3>
+                <div class="map-placeholder" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; height: 100px;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.2652941737656!2d73.06605873197823!3d26.381124316200065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394193004f26b99f%3A0x722ebe2538f997a5!2sHanuman%20Arts!5e0!3m2!1sen!2sin!4v1778594213946!5m2!1sen!2sin" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" 
+                        width="100%" 
+                        height="100%">
+                    </iframe>
+                    <div class="map-hours">Open Daily: 9:00 AM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Hanuman Art. All Rights Reserved.</p>
+            <a href="#" class="scroll-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </footer>
+
+    <script src="script.js?v=1.4"></script>
+    
+</body>
+</html>

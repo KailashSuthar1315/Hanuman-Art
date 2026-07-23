@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Manufacturing & Craftsmanship Gallery - Hanuman Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=1.4">
+    <style>
+        /* Compact Portfolio Container Spacing */
+        .gallery-bg {
+            background-color: #fcfbfa; 
+            padding: 60px 0 80px; 
+        }
+
+        .gallery-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(18, 13, 10, 0.02);
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 12px 30px rgba(139, 107, 61, 0.12);
+        }
+
+        .gallery-img-box {
+            height: 280px; 
+            overflow: hidden;
+            position: relative;
+            background: #f5f5f5;
+        }
+
+        /* DYNAMIC MOVEMENT ENGINE: Smooth image zoom scaling on hover */
+        .gallery-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .gallery-card:hover .gallery-img-box img {
+            transform: scale(1.08); 
+        }
+
+        .gallery-hover-mask {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(18, 13, 10, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .gallery-card:hover .gallery-hover-mask {
+            opacity: 1;
+        }
+
+        .zoom-icon {
+            color: #ffffff;
+            background: var(--accent-gold);
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-details-area {
+            padding: 15px;
+            border-top: 1px solid #f6f3f0;
+            background: #ffffff;
+        }
+
+        .gallery-details-area h3 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; 
+        }
+
+        .gallery-details-area p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
+        /* Bulk Shipment Banner Component */
+        .bulk-shipment-card {
+            grid-column: 1 / -1;
+            background: #ffffff;
+            border: 1px solid #b38642;
+            border-radius: 4px;
+            padding: 35px;
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            box-shadow: 0 6px 25px rgba(18, 13, 10, 0.03);
+        }
+
+        /* ⚡ AUTOMATED MULTI-IMAGE CAROUSEL FRAME (LARGE & MOVING) */
+        .shipment-slider-view {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            height: 380px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            background-color: #1a0f08;
+        }
+
+        .slide-img-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            z-index: 1;
+        }
+
+        .slide-img-track.slide-active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        .slide-img-track img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1);
+            transition: transform 4s ease-out;
+        }
+
+        /* Subtle moving effect while the slide is active */
+        .slide-img-track.slide-active img {
+            transform: scale(1.05);
+        }
+
+        /* Lightbox Window Overlays */
+        .custom-lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(18, 13, 10, 0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .lightbox-content-wrapper {
+            position: relative;
+            max-width: 800px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 4px;
+            border: 1px solid rgba(139, 107, 61, 0.3);
+        }
+
+        .lightbox-caption {
+            color: #f5f0eb;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .lightbox-close-btn {
+            position: absolute;
+            top: -45px; right: 0;
+            background: none; border: none;
+            color: #ffffff; font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* ================= PREMIUM DROPDOWN NAVBAR STYLES ================= */
+        .nav-menu ul li.dropdown {
+            position: relative;
+        }
+
+        .nav-menu ul li .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(15px);
+            background-color: #120d0a;
+            border: 1px solid #231b15;
+            border-top: 2px solid #8b6b3d;
+            min-width: 210px;
+            padding: 8px 0;
+            list-style: none;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            z-index: 100000;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            border-radius: 0 0 4px 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu ul li.dropdown:hover .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .nav-menu ul li .dropdown-menu li {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+        }
+
+        .nav-menu ul li .dropdown-menu li a {
+            color: #eae5df !important;
+            padding: 10px 20px !important;
+            display: block !important;
+            font-size: 0.82rem !important;
+            font-weight: 400 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+            text-align: left !important;
+            border: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .nav-menu ul li .dropdown-menu li a:hover {
+            color: #ffffff !important;
+            background-color: #8b6b3d !important;
+            padding-left: 25px !important;
+        }
+
+        .nav-menu ul li.dropdown a i {
+            font-size: 0.72rem;
+            margin-left: 4px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-menu ul li.dropdown:hover > a i {
+            transform: rotate(180deg);
+            color: #8b6b3d;
+        }
+
+        /* ================= REINFORCED MOBILE SPECIFIC OVERRIDES ================= */
+        @media (max-width: 992px) {
+            .bulk-shipment-card {
+                grid-template-columns: 1fr !important;
+                padding: 25px !important;
+                gap: 30px;
+            }
+            .shipment-slider-view {
+                height: 300px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-matrix {
+                grid-template-columns: 1fr !important; 
+                gap: 20px;
+            }
+
+            .gallery-img-box {
+                height: 240px; 
+            }
+
+            .main-header {
+                z-index: 999990 !important;
+            }
+
+            .mobile-menu-toggle {
+                display: block !important;
+                position: relative !important;
+                z-index: 999999 !important;
+                background: transparent !important;
+                border: none !important;
+                color: #b38642 !important; 
+                font-size: 1.75rem !important;
+                cursor: pointer !important;
+                padding: 10px !important;
+            }
+
+            .nav-menu {
+                position: fixed !important;
+                top: 0 !important;
+                right: -100% !important;
+                width: 280px !important;
+                height: 100vh !important;
+                background-color: rgba(26, 15, 8, 0.98) !important;
+                backdrop-filter: blur(10px) !important;
+                -webkit-backdrop-filter: blur(10px) !important;
+                padding: 100px 30px 40px !important;
+                box-shadow: -5px 0 25px rgba(0,0,0,0.5) !important;
+                z-index: 999995 !important;
+                display: block !important;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+                overflow-y: auto !important;
+            }
+
+            .nav-menu.active {
+                right: 0 !important;
+            }
+
+            .nav-menu ul {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 15px !important;
+                display: flex !important;
+            }
+
+            .nav-menu a {
+                font-size: 1.1rem !important;
+                color: #ffffff !important;
+                display: block !important;
+                width: 100% !important;
+                padding: 10px 0 !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            }
+
+            /* 🛠️ FIRED CSS OVERRIDE TO STOP IMMEDIATE POP-OPEN DISPLAYS */
+            .nav-menu ul li .dropdown-menu {
+                position: relative !important; 
+                top: 0 !important; 
+                left: 0 !important; 
+                transform: none !important; 
+                display: none !important; 
+                visibility: hidden !important;
+                opacity: 0 !important; 
+                background-color: rgba(255, 255, 255, 0.03) !important;
+                border: none !important; 
+                border-left: 2px solid #8b6b3d !important; 
+                box-shadow: none !important;
+                padding: 5px 0 5px 15px !important;
+                margin-top: 10px !important;
+                min-width: auto !important;
+                width: 100% !important;
+            }
+
+            /* 🛠️ CONNECT ACCORDION CLASS TO ACCESSIBILITY CONTROLS */
+            .nav-menu ul li.dropdown.open-active .dropdown-menu {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+
+            .nav-menu ul li .dropdown-menu li a {
+                padding: 6px 0 !important;
+                font-size: 0.9rem !important;
+                color: #cccccc !important;
+                text-transform: capitalize !important;
+            }
+
+            .hero-section .hero-content {
+                padding-top: 140px !important; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>HANUMAN ART</h1>
+                    <p>Handcrafted Wooden Furniture</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="mobileNavMenu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li class="dropdown">
+                        <a href="products.html" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            PRODUCTS 
+                            <span class="mobile-arrow-trigger" style="padding: 10px 15px; margin-left: auto; display: inline-block; cursor: pointer;">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="beds.html">Luxury Beds</a></li>
+                            <li><a href="sofas.html">Sofa Sets</a></li>
+                            <li><a href="dining.html">Dining Sets</a></li>
+                            <li><a href="chairs.html">Premium Chairs</a></li>
+                            <li><a href="doors.html">Carved Doors</a></li>
+                            <li><a href="wardrobes.html">Wardrobes & Almirahs</a></li>
+                            <li><a href="dressing.html">Dressing Tables</a></li>
+                            <li><a href="sideboards.html">Sideboards & Consoles</a></li>
+                            <li><a href="coffee-tables.html">Center Tables</a></li>
+                            <li><a href="custom-orders.html">Custom Orders</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">ABOUT US</a></li>
+                    <li><a href="gallery.html" class="active">GALLERY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+            <a href="https://wa.me/918946871958" class="btn-whatsapp-top" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section" style="height: 45vh; background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/hero-section.png'); background-size: cover; background-position: center;">
+        <div class="container hero-content" style="text-align: center;">
+            <h4 style="letter-spacing: 6px; color: var(--accent-gold);">OUR WORKSHOP</h4>
+            <h2 style="font-size: 3rem; margin-bottom: 10px; color: #fff; font-family: var(--font-heading);">FACTORY & CRAFTSMANSHIP</h2>
+            <div style="width: 50px; height: 2px; background: var(--accent-gold); margin: 0 auto;"></div>
+        </div>
+    </section>
+
+    <div class="gallery-bg">
+        <main class="container">
+            
+            <div class="gallery-matrix">
+                
+                <div class="bulk-shipment-card">
+                    <div class="shipment-details">
+                        <span style="background: rgba(179, 134, 66, 0.1); color: #b38642; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; padding: 5px 12px; border-radius: 50px; display: inline-block; margin-bottom: 15px;">
+                            <i class="fas fa-truck-moving"></i> Commercial Bulk Order Dispatch
+                        </span>
+                        <h3 style="font-family: 'Lora', serif; font-size: 1.7rem; color: #1a0f08; margin-bottom: 10px; font-weight: 700; white-space: normal;">
+                            300 Hand-Carved Premium Doors Dispatched to Hyderabad
+                        </h3>
+                        <p style="font-size: 0.88rem; color: #666; line-height: 1.6; margin-bottom: 20px;">
+                            An industrial milestone completed by our manufacturing team! Engineered and processed with precision machinery right here in our Mandore workshop, this massive commercial batch was built from premium selected materials, packed in heavy safety layouts, and successfully trucked to Hyderabad.
+                        </p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 20px; border-top: 1px dashed #eae5df; padding-top: 15px;">
+                            <div>
+                                <span style="display: block; font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Quantity</span>
+                                <strong style="font-size: 1rem; color: #1a0f08;">300 Solid Units</strong>
+                            </div>
+                            <div>
+                                <span style="display: block; font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Destination</span>
+                                <strong style="font-size: 1rem; color: #1a0f08;">Hyderabad, TS</strong>
+                            </div>
+                            <div>
+                                <span style="display: block; font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Date Dispatched</span>
+                                <strong style="font-size: 1rem; color: #1a0f08;">May 23, 2026</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="shipment-slider-view" id="doorCarouselFrame">
+                        <div class="slide-img-track slide-active">
+                            <img src="images/300doors.jpeg" alt="Bulk Warehouse Door Stacks View 1">
+                        </div>
+                        <div class="slide-img-track">
+                            <img src="images/hydoor2.jpeg" alt="Bulk Warehouse Door Stacks View 2">
+                        </div>
+                        <div class="slide-img-track">
+                            <img src="images/hydoor3.jpeg" alt="Bulk Warehouse Door Stacks View 3">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/pressmachine.jpeg" alt="Aarati Industries 100T Hydraulic Cold Press">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>100-Ton Cold Press</h3>
+                        <p>High-capacity Aarati Industries industrial press engine executing heavy lamination flattening cycles.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/cuttermachine.jpeg" alt="Heavy-Duty Industrial Timber Bandsaw Machine">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>Industrial Bandsaw</h3>
+                        <p>High-tension vertical motorized band saw slicing thick timber logs and primary solid wood blocks down to size.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/2sidemachine.jpeg" alt="Radhe Industries Surface Planer and Jointer Machine">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>Surface Planer & Jointer</h3>
+                        <p>Radhe Industries thicknessing planer squaring rough face boards to ensure flush, seamless assembly interfaces.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/panel-saw-rt32.jpeg" alt="Heavy Duty Sliding Table Panel Saw Machine">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>Precision Panel Saw (RT-32)</h3>
+                        <p>Heavy-duty sliding table system built for sizing large plywood sheet materials and structural frame components cleanly.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/kdt-precision-saw.jpeg" alt="Premium KDT Precision Panel Saw Machine">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>KDT Precision Panel Saw</h3>
+                        <p>High-end KDT cutting station utilizing advanced scoring blades for chipping-free, millimeter-accurate laminate board sizing.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/about3.jpeg" alt="Artisan Hand Carving Detail Work">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>Heritage Carving</h3>
+                        <p>Traditional woodworkers hand-chiseling deep profiles along seasoned teak wood panels.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/polishwork.png" alt="Hand Polishing Finish Stages">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>Premium Polishing</h3>
+                        <p>Applying multiple hand-rubbed coats of lacquer to surface native timber grains gracefully.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-box">
+                        <img src="images/work3.jpeg" alt="Sourced Timber Sorting Bench">
+                        <div class="gallery-hover-mask"><div class="zoom-icon"><i class="fas fa-search-plus"></i></div></div>
+                    </div>
+                    <div class="gallery-details-area">
+                        <h3>Sourced Material Inspection</h3>
+                        <p>Inspecting premium pre-seasoned timber boards freshly brought in from suppliers for immediate custom project cutting.</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="custom-lightbox" id="portfolioLightbox">
+        <div class="lightbox-content-wrapper">
+            <button class="lightbox-close-btn" id="closeLightboxBtn"><i class="fas fa-times"></i></button>
+            <img src="" alt="Zoomed View" class="lightbox-img" id="lightboxTargetImg">
+            <div class="lightbox-caption" id="lightboxTargetCaption"></div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <div class="logo-area">
+                    <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h2>HANUMAN ART</h2>
+                        <p>Handcrafted Wooden Furniture</p>
+                    </div>
+                </div>
+                <p class="footer-desc">Quality, trust and perfection in every piece of wood.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61591804678065"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/hanuman_art_furniture/?hl=en"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/918946871958"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>OUR PRODUCTS</h3>
+                <ul>
+                    <li><a href="beds.html">Beds</a></li>
+                    <li><a href="sofas.html">Sofas</a></li>
+                    <li><a href="dining.html">Dining Tables</a></li>
+                    <li><a href="chairs.html">Chairs</a></li>
+                    <li><a href="custom-orders.html">Custom Furniture</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>CONTACT US</h3>
+                <p><i class="fas fa-phone-alt"></i> +91 93515 82983</p>
+                <p><i class="fas fa-phone-alt"></i> +91 8946871958</p>
+                <p><i class="fab fa-whatsapp"></i> +91 8946871958</p>
+                <p><i class="fas fa-map-marker-alt"></i>Behind H/180, Riico Industrial Area, Mandore, Jodhpur, Rajasthan</p>
+                <p><i class="fas fa-envelope"></i> hanumanart1990@gmail.com</p>
+            </div>
+
+            <div class="footer-col map-col">
+                <h3>VISIT US</h3>
+                <div class="map-placeholder" style="border-radius: 4px; overflow: hidden; height: 100px; position: relative;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.2652941737656!2d73.06605873197823!3d26.381124316200065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394193004f26b99f%3A0x722ebe2538f997a5!2sHanuman%20Arts!5e0!3m2!1sen!2sin!4v1778594213946!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0; display:block;" 
+                        loading="lazy">
+                    </iframe>
+                    <div class="map-hours">Open Daily: 9:00 AM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Hanuman Art. All Rights Reserved.</p>
+            <a href="#" class="scroll-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const slides = document.querySelectorAll("#doorCarouselFrame .slide-img-track");
+            let activeIndex = 0;
+
+            if (slides.length > 0) {
+                setInterval(() => {
+                    slides[activeIndex].classList.remove("slide-active");
+                    activeIndex = (activeIndex + 1) % slides.length;
+                    slides[activeIndex].classList.add("slide-active");
+                }, 4000); 
+            }
+        });
+    </script>
+    <script src="script.js?v=1.4"></script>
+</body>
+</html>

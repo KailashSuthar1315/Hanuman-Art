@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Dining Sets Collection - Hanuman Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .category-page-bg {
+            background-color: #fcfbfa;
+            padding: 40px 0 80px;
+        }
+
+        .back-nav {
+            margin-bottom: 25px;
+        }
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted, #777);
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-link:hover { color: var(--accent-gold, #8b6b3d); }
+
+        /* 🪑 FIXED: Grid template adjusted to minmax(320px) to comfortably fit long horizontal tables side-by-side */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .catalog-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .catalog-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold, #8b6b3d);
+            box-shadow: 0 10px 20px rgba(139, 107, 61, 0.08);
+        }
+
+        /* 🪑 FIXED: Compact 220px vertical container frame with soft padding to protect table sides */
+        .catalog-img-box {
+            height: 220px;
+            overflow: hidden;
+            background: #fafaf9;
+            position: relative;
+            padding: 12px;
+        }
+
+        /* 🪑 FIXED: Using object-fit: contain so wide tables display their complete profiles without side clipping */
+        .catalog-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+        }
+
+        .catalog-card:hover .catalog-img-box img {
+            transform: scale(1.05);
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: 12px; left: 12px;
+            background: rgba(18, 13, 10, 0.85);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 2px;
+            z-index: 3;
+        }
+
+        /* Clean Minimalist Typography beneath the image */
+        .catalog-info {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #f9f7f5;
+        }
+
+        .catalog-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: var(--primary-dark, #120d0a);
+            margin: 0 0 6px 0;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .catalog-price-tag {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-gold, #8b6b3d);
+            display: block;
+        }
+
+        /* ================= DEEP OVERLAY PRODUCT MODAL DETAILED VIEW ================= */
+        .details-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(18, 13, 10, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-container {
+            background: #ffffff;
+            width: 95%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: 6px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: none; border: none;
+            font-size: 1.8rem; color: #120d0a;
+            cursor: pointer; z-index: 10;
+            transition: color 0.2s;
+        }
+        .close-modal-btn:hover { color: #8b6b3d; }
+
+        /* 🪑 FIXED: Maintained widescreen presentation logic for clean text flow below horizontal images */
+        .modal-body-split {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body-split { grid-template-columns: 1fr; }
+            .catalog-grid { grid-template-columns: 1fr !important; }
+            .catalog-img-box { height: 200px !important; }
+        }
+
+        /* 🪑 FIXED: Increased workspace width margins and clamped height cleanly at 400px */
+        .modal-image-pane {
+            background: #fafaf9;
+            border-right: 1px solid #f2ede8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            padding: 20px;
+        }
+        .modal-image-pane img {
+            width: 100%; height: 100%; object-fit: contain;
+        }
+
+        .modal-details-pane {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-details-pane h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            color: #120d0a;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .modal-price {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #8b6b3d;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .specs-table-box {
+            border-top: 1px solid #eae5df;
+            margin-bottom: 25px;
+            padding-top: 15px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f9f7f5;
+        }
+        .spec-label { font-weight: 600; color: #120d0a; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.5px;}
+        .spec-value { color: #666; }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-modal-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #25D366;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+        .btn-modal-wa:hover { background-color: #1ebd58; }
+
+        .btn-modal-custom {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #120d0a;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 11px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            border: 1px solid #120d0a;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-modal-custom:hover { background-color: transparent; color: #120d0a; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <img src="images/logo1.jpeg" alt="Hanuman Art Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>HANUMAN ART</h1>
+                    <p>Handcrafted Wooden Furniture</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="products.html" class="active">PRODUCTS</a></li>
+                    <li><a href="about.html">ABOUT US</a></li>
+                    <li><a href="gallery.html">GALLERY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+            <a href="https://wa.me/918946871958" class="btn-whatsapp-top" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section" style="height: 35vh; background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/carpenter-bg.jpg'); background-size: cover; background-position: center;">
+        <div class="container hero-content" style="padding-top: 100px; text-align: center;">
+            <h4 style="color: var(--accent-gold); letter-spacing: 4px; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;">HANDCRAFTED EXCELLENCE</h4>
+            <h2 style="font-size: 2.6rem; letter-spacing: 1px; color: #fff; font-family: var(--font-heading);">DINING SETS COLLECTION</h2>
+            <div style="width: 40px; height: 2px; background: var(--accent-gold); margin: 0 auto; margin-top: 12px;"></div>
+        </div>
+    </section>
+
+    <div class="category-page-bg">
+        <main class="container">
+            
+            <div class="back-nav">
+                <a href="products.html" class="back-link"><i class="fas fa-chevron-left"></i> Back to All Collections</a>
+            </div>
+
+            <div class="catalog-grid">
+                
+                <div class="catalog-card" data-title="Royal Maharaja 8-Seater Teak Dining Set" data-price="175,000.00" data-material="Premium Jodhpuri Teak Wood Core" data-size="8.0' L x 4.0' W x 2.5' H" data-finish="Glossy Honey Lacquer & Velvet Cushions" data-image="images/dining1.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">8-Seater Luxury</span>
+                        <img src="images/dining1.png" alt="Royal Maharaja 8-Seater Teak Dining Set">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Royal Maharaja 8-Seater Dining Set</h3>
+                        <span class="catalog-price-tag">₹175,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Live-Edge Walnut 6-Seater Dining Suite" data-price="52,000.00" data-material="Exotic Single Slab East Indian Walnut" data-size="6.5' L x 3.5' W x 2.5' H" data-finish="Natural Timber-Wax Zero-Gloss" data-image="images/dining2.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Live-Edge Slab</span>
+                        <img src="images/dining2.png" alt="Live-Edge Walnut 6-Seater Dining Suite">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Live-Edge Walnut 6-Seater Suite</h3>
+                        <span class="catalog-price-tag">₹52,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Classic Sheesham 6-Seater Bench Combo" data-price="45,000.00" data-material="Seasoned Solid Rosewood (Sheesham)" data-size="6.0' L x 3.2' W (Includes 1 Bench)" data-finish="Rich Mahogany Semi-Gloss Polish" data-image="images/dining3.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Trending Combo</span>
+                        <img src="images/dining3.png" alt="Classic Sheesham 6-Seater Bench Combo">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Sheesham 6-Seater Bench Combo</h3>
+                        <span class="catalog-price-tag">₹45,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Premium Marble Top Teak 6-Seater" data-price="55,000.00" data-material="Teak Wood Frame & Italian Makrana Marble" data-size="6.5' L x 3.5' W x 2.5' H" data-finish="Teak Natural Polish & Polished Marble" data-image="images/dining4.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Italian Marble Top</span>
+                        <img src="images/dining4.png" alt="Premium Marble Top Teak 6-Seater">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Premium Marble Top Teak Set</h3>
+                        <span class="catalog-price-tag">₹55,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Modern Scandinavian Round 4-Seater" data-price="35,000.00" data-material="Premium Symmetrical White Oak" data-size="4.0' Diameter Round Top" data-finish="Clear Satin Natural Matte Finish" data-image="images/dining5.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">4-Seater Round</span>
+                        <img src="images/dining5.png" alt="Modern Scandinavian Round 4-Seater">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Scandinavian Round 4-Seater</h3>
+                        <span class="catalog-price-tag">₹35,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Traditional Jodhpuri Brass Accent Dining" data-price="125,000.00" data-material="Heavy Dense Core Rosewood & Brass Intarsia" data-size="6.0' L x 3.5' W x 2.5' H" data-finish="Antique Charcoal Blackwash Polish" data-image="images/dining6.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Brass Handwork</span>
+                        <img src="images/dining6.png" alt="Traditional Jodhpuri Brass Accent Dining">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Jodhpuri Brass Accent Dining Set</h3>
+                        <span class="catalog-price-tag">₹125,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Vintage French Cane Back Dining Suite" data-price="50,000.00" data-material="Seasoned Teakwood & Handwoven Rattan" data-size="6.5' L x 3.5' W (6 Cushioned Chairs)" data-finish="Warm Honey Distressed Antique Lacquer" data-image="images/dining7.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Cane Back Vintage</span>
+                        <img src="images/dining7.png" alt="Vintage French Cane Back Dining Suite">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>French Cane Back 6-Seater Suite</h3>
+                        <span class="catalog-price-tag">₹50,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Compact Space-Saver 4-Seater Set" data-price="18,500.00" data-material="Solid Plantation Hardwood Core" data-size="3.5' L x 3.5' W (Tuck-in Chairs)" data-finish="Dark Walnut Matte Coating" data-image="images/dining8.jpeg">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Space Optimization</span>
+                        <img src="images/dining8.jpeg" alt="Compact Space-Saver 4-Seater Set">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Space-Saver 4-Seater Set</h3>
+                        <span class="catalog-price-tag">₹18,500</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Imperial Glass-Top Teak Wood Matrix" data-price="140,000.00" data-material="Pure A-Grade Teak Frame & 12mm Glass" data-size="6.0' L x 3.5' W x 2.5' H" data-finish="Natural Teak Grain Clear Protective Layer" data-image="images/dining9.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">12mm Toughened Glass</span>
+                        <img src="images/dining9.png" alt="Imperial Glass-Top Teak Wood Matrix">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Imperial Glass-Top Teak Matrix</h3>
+                        <span class="catalog-price-tag">₹140,000</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Heritage Courtyard Carved 6-Seater" data-price="60,000.00" data-material="Interlocking Premium Teak Blocks" data-size="6.5' L x 3.8' W x 2.5' H" data-finish="Eco-Friendly Hand-Rubbed Shellac Polish" data-image="images/dining10.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Exquisite Carving</span>
+                        <img src="images/dining10.png" alt="Heritage Courtyard Carved 6-Seater">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Heritage Carved 6-Seater Set</h3>
+                        <span class="catalog-price-tag">₹60,000</span>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="details-modal-overlay" id="productDetailModal">
+        <div class="modal-container">
+            <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            <div class="modal-body-split">
+                <div class="modal-image-pane">
+                    <img src="" id="modalImg" alt="Product Frame">
+                </div>
+                <div class="modal-details-pane">
+                    <h2 id="modalTitle">Product Title</h2>
+                    <span class="modal-price" id="modalPrice">₹0.00</span>
+                    <div class="specs-table-box">
+                        <div class="spec-row">
+                            <span class="spec-label">Material & Top</span>
+                            <span class="spec-value" id="modalMaterial">Timber</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Standard Layout</span>
+                            <span class="spec-value" id="modalSize">Standard</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Surface Finish</span>
+                            <span class="spec-value" id="modalFinish">Premium</span>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="" id="waInquiryBtn" class="btn-modal-wa" target="_blank"><i class="fab fa-whatsapp"></i> Book Now via WhatsApp</a>
+                        <a href="" id="waCustomBtn" class="btn-modal-custom" target="_blank"><i class="fas fa-sliders-h"></i> Request 4/6/8 Seater Customization</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <div class="logo-area">
+                    <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h2>HANUMAN ART</h2>
+                        <p>Handcrafted Wooden Furniture</p>
+                    </div>
+                </div>
+                <p class="footer-desc">Quality, trust and perfection in every piece of wood.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61591804678065"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/hanuman_art_furniture/?hl=en"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/918946871958"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>OUR PRODUCTS</h3>
+                <ul>
+                    <li><a href="beds.html">Beds</a></li>
+                    <li><a href="sofas.html">Sofas</a></li>
+                    <li><a href="dining.html">Dining Tables</a></li>
+                    <li><a href="chairs.html">Chairs</a></li>
+                    <li><a href="custom-orders.html">Custom Furniture</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>CONTACT US</h3>
+                <p><i class="fas fa-phone-alt"></i> +91 93515 82983</p>
+                <p><i class="fas fa-phone-alt"></i> +91 8946871958</p>
+                <p><i class="fab fa-whatsapp"></i> +91 8946871958</p>
+                <p><i class="fas fa-map-marker-alt"></i>Behind H/180,Riico Industrial Area, Mandore, <br>Jodhpur, Rajasthan</p>
+                <p><i class="fas fa-envelope"></i> hanumanart1990@gmail.com</p>
+            </div>
+
+            <div class="footer-col map-col">
+                <h3>VISIT US</h3>
+                <div class="map-placeholder" style="border-radius: 4px; overflow: hidden; height: 180px; position: relative;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.2652941737656!2d73.06605873197823!3d26.381124316200065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394193004f26b99f%3A0x722ebe2538f997a5!2sHanuman%20Arts!5e0!3m2!1sen!2sin!4v1778594213946!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0; display:block;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div class="map-hours">Open Daily: 9:00 AM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Hanuman Art. All Rights Reserved.</p>
+            <a href="#" class="scroll-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.catalog-card');
+            const modal = document.getElementById('productDetailModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            const modalImg = document.getElementById('modalImg');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalPrice = document.getElementById('modalPrice');
+            const modalMaterial = document.getElementById('modalMaterial');
+            const modalSize = document.getElementById('modalSize');
+            const modalFinish = document.getElementById('modalFinish');
+            const waInquiryBtn = document.getElementById('waInquiryBtn');
+            const waCustomBtn = document.getElementById('waCustomBtn');
+
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.getAttribute('data-title');
+                    const price = this.getAttribute('data-price');
+                    const material = this.getAttribute('data-material');
+                    const size = this.getAttribute('data-size');
+                    const finish = this.getAttribute('data-finish');
+                    const imgSrc = this.getAttribute('data-image');
+
+                    modalImg.setAttribute('src', imgSrc);
+                    modalTitle.innerText = title;
+                    modalPrice.innerText = '₹' + price;
+                    modalMaterial.innerText = material;
+                    modalSize.innerText = size;
+                    modalFinish.innerText = finish;
+
+                    const encodedInquiry = encodeURIComponent(`Hello Hanuman Arts, I saw your catalog and am highly interested in ordering the "${title}" listed at ₹${price}. Please share availability.`);
+                    const encodedCustom = encodeURIComponent(`Hello Hanuman Arts, I am evaluating the "${title}". Can we customize this design into a different seating configuration (e.g., changing from a 6-seater to a specific 4-seater or 8-seater layout)?`);
+                    
+                    waInquiryBtn.setAttribute('href', `https://wa.me/918946871958?text=${encodedInquiry}`);
+                    waCustomBtn.setAttribute('href', `https://wa.me/918946871958?text=${encodedCustom}`);
+
+                    modal.style.display = 'flex';
+                    setTimeout(() => { modal.style.opacity = '1'; }, 50);
+                });
+            });
+
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.opacity = '0';
+                setTimeout(() => { modal.style.display = 'none'; }, 300);
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeModalBtn.click();
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

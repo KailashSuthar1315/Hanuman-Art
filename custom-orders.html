@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bespoke Custom Orders - Hanuman Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .custom-page-bg {
+            background-color: #fcfbfa;
+            padding: 50px 0 90px;
+        }
+
+        .back-nav {
+            margin-bottom: 35px;
+        }
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted, #777);
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-gold, #8b6b3d); }
+
+        /* Friendly, Punchy Lead Card */
+        .consultation-lead-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            border-left: 4px solid #8b6b3d;
+            border-radius: 4px;
+            padding: 35px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 20px rgba(160, 140, 115, 0.03);
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .consultation-text h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            color: #120d0a;
+            margin-bottom: 10px;
+        }
+        .consultation-text p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .btn-consultation-trigger {
+            background-color: #25D366;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 16px 24px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-consultation-trigger:hover {
+            background-color: #1ebd58;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .consultation-lead-card {
+                grid-template-columns: 1fr;
+                padding: 25px;
+                text-align: center;
+            }
+            .btn-consultation-trigger {
+                width: 100%;
+            }
+        }
+
+        /* 3-Step Simple Guide */
+        .process-title {
+            text-align: center;
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            color: #120d0a;
+            margin-bottom: 35px;
+            position: relative;
+        }
+        .process-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: #8b6b3d;
+            margin: 10px auto 0;
+        }
+
+        .process-matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .process-step-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            border-radius: 4px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: #120d0a;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 0 auto 15px;
+            border: 2px solid #8b6b3d;
+        }
+        .process-step-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: #120d0a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .process-step-card p {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .process-matrix { grid-template-columns: 1fr; }
+        }
+
+        /* Clean Capabilities Grid */
+        .capabilities-title {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            color: #120d0a;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eae5df;
+            padding-bottom: 10px;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Widened columns to display wide items properly */
+            gap: 25px;
+        }
+
+        .catalog-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .catalog-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold, #8b6b3d);
+            box-shadow: 0 10px 20px rgba(139, 107, 61, 0.08);
+        }
+
+        /* 📐 FIXED: Uniform image height box with slight padding padding to protect horizontal frames from cutting off */
+        .catalog-img-box {
+            height: 240px;
+            overflow: hidden;
+            background: #fafaf9;
+            position: relative;
+            padding: 10px;
+        }
+
+        /* 📐 FIXED: object-fit set to contain so wide furniture profiles show fully without crop lines */
+        .catalog-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+        }
+
+        .catalog-card:hover .catalog-img-box img {
+            transform: scale(1.04);
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: 12px; left: 12px;
+            background: #120d0a;
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 2px;
+            border: 1px solid #8b6b3d;
+            z-index: 3;
+        }
+
+        .catalog-info {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #f9f7f5;
+        }
+
+        .catalog-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: var(--primary-dark, #120d0a);
+            margin: 0 0 6px 0;
+            font-weight: 600;
+        }
+
+        .catalog-price-tag {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #8b6b3d;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        /* ================= POPUP MODAL SCREEN ================= */
+        .details-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(18, 13, 10, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-container {
+            background: #ffffff;
+            width: 95%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: 6px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: none; border: none;
+            font-size: 1.8rem; color: #120d0a;
+            cursor: pointer; z-index: 10;
+        }
+        .close-modal-btn:hover { color: #8b6b3d; }
+
+        .modal-body-split {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body-split { grid-template-columns: 1fr; }
+            .catalog-grid { grid-template-columns: 1fr !important; }
+            .catalog-img-box { height: 210px !important; }
+        }
+
+        /* 📐 FIXED: Pop-up image pane set to contain for absolute edge visibility */
+        .modal-image-pane {
+            background: #fafaf9;
+            border-right: 1px solid #f2ede8;
+            height: 420px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-image-pane img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        .modal-details-pane {
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-details-pane h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.6rem;
+            color: #120d0a;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .modal-price {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #8b6b3d;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .specs-table-box {
+            border-top: 1px solid #eae5df;
+            margin-bottom: 30px;
+            padding-top: 15px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f9f7f5;
+        }
+        .spec-label { font-weight: 600; color: #120d0a; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.5px;}
+        .spec-value { color: #666; font-weight: 500; text-align: right; padding-left: 10px; }
+
+        .btn-modal-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #25D366;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+        .btn-modal-wa:hover { background-color: #1ebd58; }
+
+        /* ================= HEADER NAVBAR DROPDOWN ================= */
+        .nav-menu ul li.dropdown { position: relative; }
+        .nav-menu ul li .dropdown-menu {
+            position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(15px);
+            background-color: #120d0a; border: 1px solid #231b15;
+            border-top: 2px solid #8b6b3d; min-width: 210px; padding: 8px 0;
+            list-style: none; display: block; visibility: hidden; opacity: 0;
+            z-index: 100000; box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            border-radius: 0 0 4px 4px; transition: all 0.3s ease;
+        }
+        .nav-menu ul li.dropdown:hover .dropdown-menu {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .nav-menu ul li .dropdown-menu li a {
+            color: #eae5df !important; padding: 10px 20px !important; display: block !important;
+            font-size: 0.82rem !important; font-weight: 400 !important; text-transform: uppercase !important;
+            text-align: left !important; transition: all 0.2s ease !important;
+        }
+        .nav-menu ul li .dropdown-menu li a:hover {
+            color: #ffffff !important; background-color: #8b6b3d !important; padding-left: 25px !important;
+        }
+        .nav-menu ul li.dropdown a i { font-size: 0.72rem; margin-left: 4px; transition: transform 0.3s; }
+        .nav-menu ul li.dropdown:hover > a i { transform: rotate(180deg); color: #8b6b3d; }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle { display: block !important; color: #b38642 !important; font-size: 1.75rem !important; background: none; border: none; padding: 10px; cursor: pointer;}
+            .nav-menu {
+                position: fixed !important; top: 0 !important; right: -100% !important;
+                width: 280px !important; height: 100vh !important; background-color: rgba(26, 15, 8, 0.98) !important;
+                padding: 100px 30px 40px !important; z-index: 999995 !important; transition: right 0.4s ease !important;
+            }
+            .nav-menu.active { right: 0 !important; }
+            .nav-menu ul { flex-direction: column !important; align-items: flex-start !important; gap: 15px !important; display: flex !important;}
+            .nav-menu a { font-size: 1.1rem !important; color: #ffffff !important; display: block !important; width: 100% !important; padding: 10px 0 !important;}
+            .nav-menu ul li .dropdown-menu {
+                position: relative !important; top: 0 !important; left: 0 !important; transform: none !important;
+                visibility: visible !important; opacity: 1 !important; background-color: rgba(255, 255, 255, 0.03) !important;
+                border: none !important; border-left: 2px solid #8b6b3d !important; padding-left: 15px !important; width: 100% !important; box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>HANUMAN ART</h1>
+                    <p>Handcrafted Wooden Furniture</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="mobileNavMenu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li class="dropdown">
+                        <a href="products.html" class="active">PRODUCTS <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="beds.html">Luxury Beds</a></li>
+                            <li><a href="sofas.html">Sofa Sets</a></li>
+                            <li><a href="dining.html">Dining Sets</a></li>
+                            <li><a href="chairs.html">Premium Chairs</a></li>
+                            <li><a href="doors.html">Carved Doors</a></li>
+                            <li><a href="wardrobes.html">Wardrobes & Almirahs</a></li>
+                            <li><a href="dressing.html">Dressing Tables</a></li>
+                            <li><a href="sideboards.html">Sideboards & Consoles</a></li>
+                            <li><a href="coffee-tables.html">Center Tables</a></li>
+                            <li><a href="custom-orders.html">Custom Orders</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">ABOUT US</a></li>
+                    <li><a href="gallery.html">GALLERY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+            <a href="https://wa.me/918946871958" class="btn-whatsapp-top" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section" style="height: 35vh; background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('images/products/workshop-consultation.jpg'); background-size: cover; background-position: center;">
+        <div class="container hero-content" style="text-align: center; padding-top: 100px;">
+            <h4 style="color: var(--accent-gold); letter-spacing: 4px; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;">MADE TO MEASURE</h4>
+            <h2 style="font-size: 2.6rem; letter-spacing: 1px; color: #fff; font-family: var(--font-heading);">CUSTOM MASTERPIECES</h2>
+            <div style="width: 40px; height: 2px; background: var(--accent-gold); margin: 0 auto; margin-top: 12px;"></div>
+        </div>
+    </section>
+
+    <div class="custom-page-bg">
+        <main class="container">
+            
+            <div class="back-nav">
+                <a href="products.html" class="back-link"><i class="fas fa-chevron-left"></i> Back to All Collections</a>
+            </div>
+
+            <div class="consultation-lead-card">
+                <div class="consultation-text">
+                    <h2>Found a Photo on Pinterest? We Can Make It!</h2>
+                    <p>You don't need to pay high middleman showroom prices. Since we make everything inside our own Mandore factory, just share your size list, a rough sketch, or a photo you found online. We will build it exactly how you want it!</p>
+                </div>
+                <div style="text-align: right;">
+                    <a href="https://wa.me/918946871958?text=Hello%20Hanuman%20Arts%2C%20I%20have%20a%20custom%20furniture%20photo%20/%20size%20requirement%20and%20want%20to%20talk%20to%20your%20workshop%20team." class="btn-consultation-trigger" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Share My Idea
+                    </a>
+                </div>
+            </div>
+
+            <h3 class="process-title">How To Order Your Custom Piece</h3>
+            <div class="process-matrix">
+                <div class="process-step-card">
+                    <div class="step-num">1</div>
+                    <h4>Send Us Your Photo / Size</h4>
+                    <p>Click any category below or share your room measurements and inspiration pictures directly with us on WhatsApp.</p>
+                </div>
+                <div class="process-step-card">
+                    <div class="step-num">2</div>
+                    <h4>Pick Wood & Polish Colors</h4>
+                    <p>Choose your timber core (Premium Teak Wood or Sheesham Wood) and pick your favorite hand-rubbed polish color tones.</p>
+                </div>
+                <div class="process-step-card">
+                    <div class="step-num">3</div>
+                    <h4>Direct Safe Delivery</h4>
+                    <p>Our experienced craftsmen build your dream order, pack it securely, and deliver it safely right to your home door.</p>
+                </div>
+            </div>
+
+            <h3 class="capabilities-title">Special Workshop Service Categories</h3>
+
+            <div class="catalog-grid">
+                
+                <div class="catalog-card" data-title="Full House Furniture Package" data-price="Free Cost Estimate on Site Plans" data-material="Premium Seasoned Teak & Sheesham Wood" data-size="Custom Fit For Your Entire House Room Space" data-finish="Choice of Natural Matte / PU Polish" data-image="images/customhome.jpeg">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Complete New Home Packages</span>
+                        <img src="images/customhome.jpeg" alt="Complete Home Architectural Joinery">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Full House Furniture Packages</h3>
+                        <span class="catalog-price-tag">Click To See Process</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Bespoke Luxury Wardrobes & Closets" data-price="Free Cost Estimate on Dimensions" data-material="Premium Teak or Walnut Core Panels" data-size="Built According to Room Heights" data-finish="Rich Satin Wood Grain / Premium Handles" data-image="images/customwardropbes.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Luxury Wardrobes</span>
+                        <img src="images/customwardropbes.png" alt="Bespoke Walk-In Luxury Closet System">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Custom Built Closets & Wardrobes</h3>
+                        <span class="catalog-price-tag">Click To See Process</span>
+                    </div>
+                </div>
+
+                <div class="catalog-card" data-title="Single Slab Live-Edge Wooden Tables" data-price="Free Cost Estimate on Seating Needs" data-material="Single Continuous Raw Tree Slab Wood" data-size="Custom Sizes Up To 12 Feet Lengths" data-finish="Natural Satin Timber Shield Armor Coating" data-image="images/dining10.png">
+                    <div class="catalog-img-box">
+                        <span class="premium-badge">Natural Slab Designs</span>
+                        <img src="images/dining10.png" alt="Exotic Live-Edge Conference Table">
+                    </div>
+                    <div class="catalog-info">
+                        <h3>Live-Edge Dining & Center Tables</h3>
+                        <span class="catalog-price-tag">Click To See Process</span>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="details-modal-overlay" id="productDetailModal">
+        <div class="modal-container">
+            <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            <div class="modal-body-split">
+                <div class="modal-image-pane">
+                    <img src="" id="modalImg" alt="Bespoke Order Frame">
+                </div>
+                <div class="modal-details-pane">
+                    <h2 id="modalTitle">Project Title</h2>
+                    <span class="modal-price" id="modalPrice">Quote Verification Process</span>
+                    <div class="specs-table-box">
+                        <div class="spec-row"><span class="spec-label">Wood Selections</span><span class="spec-value" id="modalMaterial">Fully Customizable</span></div>
+                        <div class="spec-row"><span class="spec-label">Sizing Fit</span><span class="spec-value" id="modalSize">Built To Fit Your Rooms</span></div>
+                        <div class="spec-row"><span class="spec-label">What We Need</span><span class="spec-value" id="modalFinish">Your Sizes / Reference Photos</span></div>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="" id="waInquiryBtn" class="btn-modal-wa" target="_blank"><i class="fab fa-whatsapp"></i> Chat with Workshop Team</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <div class="logo-area">
+                    <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h2>HANUMAN ART</h2>
+                        <p>Handcrafted Wooden Furniture</p>
+                    </div>
+                </div>
+                <p class="footer-desc">Quality, trust and perfection in every piece of wood.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61591804678065"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/hanuman_art_furniture/?hl=en"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/918946871958"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>OUR PRODUCTS</h3>
+                <ul>
+                    <li><a href="beds.html">Beds</a></li>
+                    <li><a href="sofas.html">Sofas</a></li>
+                    <li><a href="dining.html">Dining Tables</a></li>
+                    <li><a href="chairs.html">Chairs</a></li>
+                    <li><a href="custom-orders.html">Custom Furniture</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>CONTACT US</h3>
+                <p><i class="fas fa-phone-alt"></i> +91 93515 82983</p>
+                <p><i class="fas fa-phone-alt"></i> +91 8946871958</p>
+                <p><i class="fab fa-whatsapp"></i> +91 8946871958</p>
+                <p><i class="fas fa-map-marker-alt"></i>Behind H/180, Riico Industrial Area, Mandore, Jodhpur, Rajasthan</p>
+                <p><i class="fas fa-envelope"></i> hanumanart1990@gmail.com</p>
+            </div>
+
+            <div class="footer-col map-col">
+                <h3>VISIT US</h3>
+                <div class="map-placeholder" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.2652941737656!2d73.06605873197823!3d26.381124316200065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394193004f26b99f%3A0x722ebe2538f997a5!2sHanuman%20Arts!5e0!3m2!1sen!2sin!4v1778594213946!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0; display:block;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                    <div class="map-hours">Open Daily: 9:00 AM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Hanuman Art. All Rights Reserved.</p>
+            <a href="#" class="scroll-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mobile navigation burger engine
+            const toggleBtn = document.getElementById('menuToggleBtn');
+            const navMenu = document.getElementById('mobileNavMenu');
+
+            if (toggleBtn && navMenu) {
+                const navHandler = function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    navMenu.classList.toggle('active');
+                };
+                toggleBtn.addEventListener('click', navHandler);
+                toggleBtn.addEventListener('touchstart', navHandler, { passive: false });
+                document.addEventListener('click', function(e) {
+                    if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) navMenu.classList.remove('active');
+                });
+            }
+
+            // Pop-up modal functionality
+            const cards = document.querySelectorAll('.catalog-card');
+            const modal = document.getElementById('productDetailModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            const modalImg = document.getElementById('modalImg');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalPrice = document.getElementById('modalPrice');
+            const modalMaterial = document.getElementById('modalMaterial');
+            const modalSize = document.getElementById('modalSize');
+            const modalFinish = document.getElementById('modalFinish');
+            const waInquiryBtn = document.getElementById('waInquiryBtn');
+
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.getAttribute('data-title');
+                    const price = this.getAttribute('data-price');
+                    const material = this.getAttribute('data-material');
+                    const size = this.getAttribute('data-size');
+                    const finish = this.getAttribute('data-finish');
+                    const imgSrc = this.getAttribute('data-image');
+
+                    modalImg.setAttribute('src', imgSrc);
+                    modalTitle.innerText = title;
+                    modalPrice.innerText = price;
+                    modalMaterial.innerText = material;
+                    modalSize.innerText = size;
+                    modalFinish.innerText = finish;
+
+                    const encodedMsg = encodeURIComponent(`Hello Hanuman Arts, I saw your custom order option for "${title}" on your website. I have my own custom sizes/photo references ready to share. Please help me get a price estimate.`);
+                    waInquiryBtn.setAttribute('href', `https://wa.me/918946871958?text=${encodedMsg}`);
+
+                    modal.style.display = 'flex';
+                    setTimeout(() => { modal.style.opacity = '1'; }, 50);
+                });
+            });
+
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.opacity = '0';
+                setTimeout(() => { modal.style.display = 'none'; }, 300);
+            });
+            modal.addEventListener('click', function(e) { if (e.target === modal) closeModalBtn.click(); });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

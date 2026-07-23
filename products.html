@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Furniture Collections - Hanuman Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=1.4">
+    <style>
+
+        /* Premium Compact Hub Styles */
+        .hub-bg {
+            background-color: #fcfbfa; /* Warm premium off-white light background */
+            padding: 60px 0 80px;
+        }
+
+        .category-matrix {
+            display: grid;
+            /* 4 Columns on large screens to keep image cards beautifully small and compact */
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .compact-cat-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            border-radius: 4px;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(160, 140, 115, 0.04);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+        }
+
+        .compact-cat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 10px 22px rgba(139, 107, 61, 0.12);
+        }
+
+        .cat-img-box {
+            height: 170px; /* Tighter, shorter image frames so they don't look big */
+            overflow: hidden;
+            position: relative;
+            background: #f5f5f5;
+        }
+
+        .cat-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .compact-cat-card:hover .cat-img-box img {
+            transform: scale(1.04);
+        }
+
+        /* 🚪 SPECIAL PORTRAIT LAYOUT ADJUSTMENT SPECIFICALLY FOR THE CARVED DOORS CARD */
+        .compact-cat-card[href="doors.html"] .cat-img-box {
+            background-color: #fafaf9 !important;
+            padding: 8px; /* Safe cushion padding so the doors don't clip the outer card borders */
+        }
+
+        .compact-cat-card[href="doors.html"] .cat-img-box img {
+            object-fit: contain !important; /* Preserves the whole vertical height profile safely */
+        }
+
+        .cat-info-area {
+            padding: 18px 15px;
+            text-align: center;
+            background: #ffffff;
+            border-top: 1px solid #f6f3f0;
+        }
+
+        .cat-info-area h3 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .compact-cat-card:hover .cat-info-area h3 {
+            color: var(--accent-gold); /* Text turns gold on hover */
+        }
+
+        .cat-info-area p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .cat-action-lbl {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ================= PREMIUM REINFORCED DROPDOWN FOR NAVBAR HUB ================= */
+        .nav-menu ul li.dropdown {
+            position: relative;
+        }
+
+        .nav-menu ul li .dropdown-menu {
+            position: absolute; 
+            top: 100%; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(15px); 
+            background-color: #120d0a; 
+            border: 1px solid #231b15; 
+            border-top: 2px solid #8b6b3d; 
+            min-width: 210px; 
+            padding: 8px 0; 
+            list-style: none; 
+            display: block; 
+            visibility: hidden; 
+            opacity: 0; 
+            z-index: 100000; 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25); 
+            border-radius: 0 0 4px 4px; 
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu ul li.dropdown:hover .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .nav-menu ul li .dropdown-menu li {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+        }
+
+        .nav-menu ul li .dropdown-menu li a {
+            color: #eae5df !important;
+            padding: 10px 20px !important;
+            display: block !important;
+            font-size: 0.82rem !important;
+            font-weight: 400 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+            text-align: left !important;
+            border: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .nav-menu ul li .dropdown-menu li a:hover {
+            color: #ffffff !important;
+            background-color: #8b6b3d !important;
+            padding-left: 25px !important;
+        }
+
+        .nav-menu ul li.dropdown a i {
+            font-size: 0.72rem;
+            margin-left: 4px;
+            transition: transform 0.3s ease;
+        }
+        .nav-menu ul li.dropdown:hover > a i {
+            transform: rotate(180deg);
+            color: #8b6b3d;
+        }
+
+        /* ================= MOBILE NAVIGATION DRAWER CONFIG RESET ================= */
+        @media (max-width: 768px) {
+            .main-header {
+                z-index: 999990 !important;
+            }
+
+            .mobile-menu-toggle {
+                display: block !important;
+                position: relative !important;
+                z-index: 999999 !important;
+                background: transparent !important;
+                border: none !important;
+                color: #b38642 !important;
+                font-size: 1.75rem !important;
+                cursor: pointer !important;
+                padding: 10px !important;
+            }
+
+            .nav-menu {
+                position: fixed !important;
+                top: 0 !important;
+                right: -100% !important;
+                width: 280px !important;
+                height: 100vh !important;
+                background-color: rgba(26, 15, 8, 0.98) !important;
+                backdrop-filter: blur(10px) !important;
+                -webkit-backdrop-filter: blur(10px) !important;
+                padding: 100px 30px 40px !important;
+                box-shadow: -5px 0 25px rgba(0,0,0,0.5) !important;
+                z-index: 999995 !important;
+                display: block !important;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+                overflow-y: auto !important;
+            }
+
+            .nav-menu.active {
+                right: 0 !important;
+            }
+
+            .nav-menu ul {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 15px !important;
+                display: flex !important;
+            }
+
+            .nav-menu a {
+                font-size: 1.1rem !important;
+                color: #ffffff !important;
+                display: block !important;
+                width: 100% !important;
+                padding: 10px 0 !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            }
+
+            /* 🛠️ FIXED INTERNAL CSS OVERRIDE TO FORCE CLOSE MENU UNTIL TAPPED */
+            .nav-menu ul li .dropdown-menu {
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                transform: none !important;
+                display: none !important;        /* Keeps it perfectly shut */
+                visibility: hidden !important;
+                opacity: 0 !important;
+                background-color: rgba(255, 255, 255, 0.03) !important;
+                border: none !important;
+                border-left: 2px solid #8b6b3d !important;
+                box-shadow: none !important;
+                padding: 5px 0 5px 15px !important;
+                margin-top: 10px !important;
+                min-width: auto !important;
+                width: 100% !important;
+            }
+
+            /* 🛠️ ADDS ACCORDION STATE CONTROLLER INTERFACE LINK */
+            .nav-menu ul li.dropdown.open-active .dropdown-menu {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+
+            .nav-menu ul li .dropdown-menu li a {
+                padding: 6px 0 !important;
+                font-size: 0.9rem !important;
+                color: #cccccc !important;
+                text-transform: capitalize !important;
+            }
+
+            .hero-section .hero-content {
+                padding-top: 140px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>HANUMAN ART</h1>
+                    <p>Handcrafted Wooden Furniture</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="mobileNavMenu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li class="dropdown">
+                        <a href="products.html" class="active" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            PRODUCTS 
+                            <span class="mobile-arrow-trigger" style="padding: 10px 15px; margin-left: auto; display: inline-block; cursor: pointer;">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="beds.html">Luxury Beds</a></li>
+                            <li><a href="sofas.html">Sofa Sets</a></li>
+                            <li><a href="dining.html">Dining Sets</a></li>
+                            <li><a href="chairs.html">Premium Chairs</a></li>
+                            <li><a href="doors.html">Carved Doors</a></li>
+                            <li><a href="wardrobes.html">Wardrobes & Almirahs</a></li>
+                            <li><a href="dressing.html">Dressing Tables</a></li>
+                            <li><a href="sideboards.html">Sideboards & Consoles</a></li>
+                            <li><a href="coffee-tables.html">Center Tables</a></li>
+                            <li><a href="custom-orders.html">Custom Orders</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">ABOUT US</a></li>
+                    <li><a href="gallery.html">GALLERY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+            <a href="https://wa.me/918946871958" class="btn-whatsapp-top" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section" style="height: 35vh; background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/pp.jpeg'); background-size: cover; background-position: center;">
+        <div class="container hero-content" style="text-align: center;">
+            <h4 style="color: var(--accent-gold); letter-spacing: 4px; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;">HANDCRAFTED EXCELLENCE</h4>
+            <h2 style="font-size: 2.6rem; letter-spacing: 1px; color: #fff; font-family: var(--font-heading);">OUR FURNITURE COLLECTIONS</h2>
+            <div style="width: 40px; height: 2px; background: var(--accent-gold); margin: 0 auto; margin-top: 12px;"></div>
+        </div>
+    </section>
+
+    <div class="hub-bg">
+        <main class="container">
+            
+            <div class="category-matrix">
+                
+                <a href="beds.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/bed.png" alt="Luxury Beds"></div>
+                    <div class="cat-info-area">
+                        <h3>Luxury Beds</h3>
+                        <p>Royal Carved & Storage Box Beds</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="sofas.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/sofa9.png" alt="Sofa Sets"></div>
+                    <div class="cat-info-area">
+                        <h3>Sofa Sets</h3>
+                        <p>Traditional Maharaja Cushion Sofas</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="dining.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/6 Seater Dining Table.jpeg" alt="Dining Sets"></div>
+                    <div class="cat-info-area">
+                        <h3>Dining Sets</h3>
+                        <p>Premium Solid Wood Dining Tables</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="chairs.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/chairs.png" alt="Premium Chairs"></div>
+                    <div class="cat-info-area">
+                        <h3>Premium Chairs</h3>
+                        <p>Accent Armchairs & Carver Seating</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="doors.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/door6.jpeg" alt="Carved Doors"></div>
+                    <div class="cat-info-area">
+                        <h3>Carved Doors</h3>
+                        <p>Heavy Royal Entrance Main Panels</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="wardrobes.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/almirah.png" alt="Wardrobes"></div>
+                    <div class="cat-info-area">
+                        <h3>Wardrobes & Almirahs</h3>
+                        <p>Heavy Storage Wooden Cupboards</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="dressing.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/dressing5.png" alt="Dressing Tables"></div>
+                    <div class="cat-info-area">
+                        <h3>Dressing Tables</h3>
+                        <p>Elegant Carved Mirrors & Vanity Units</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="sideboards.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/console.png" alt="Sideboards"></div>
+                    <div class="cat-info-area">
+                        <h3>Sideboards & Consoles</h3>
+                        <p>Living Room Cabinets & TV Consoles</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="coffee-tables.html" class="compact-cat-card">
+                    <div class="cat-img-box"><img src="images/centraltable.png" alt="Coffee Tables"></div>
+                    <div class="cat-info-area">
+                        <h3>Center Tables</h3>
+                        <p>Luxury Living Room Coffee Tables</p>
+                        <span class="cat-action-lbl">View Collection <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="custom-orders.html" class="compact-cat-card" style="border: 2px dashed #8b6b3d; background: #fffcf7;">
+                    <div class="cat-img-box" style="background: #fdfaf4;">
+                        <img src="images/customhome.jpeg" alt="Full House Turnkey Furnishing Consultation" style="opacity: 0.95;">
+                    </div>
+                    <div class="cat-info-area">
+                        <h3 style="color: #8b6b3d; font-weight: 700;">Full Home Turnkey Call</h3>
+                        <p style="color: #120d0a; font-weight: 500;">Free Architectural Layout Consultation</p>
+                        <span class="cat-action-lbl" style="color: #120d0a;">Start Bespoke Order <i class="fas fa-chevron-right"></i></span>
+                    </div>
+                </a>
+
+            </div>
+        </main>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <div class="logo-area">
+                    <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h2>HANUMAN ART</h2>
+                        <p>Handcrafted Wooden Furniture</p>
+                    </div>
+                </div>
+                <p class="footer-desc">Quality, trust and perfection in every piece of wood.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61591804678065"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/hanuman_art_furniture/?hl=en"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/918946871958"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>OUR PRODUCTS</h3>
+                <ul>
+                    <li><a href="beds.html">Beds</a></li>
+                    <li><a href="sofas.html">Sofas</a></li>
+                    <li><a href="dining.html">Dining Tables</a></li>
+                    <li><a href="chairs.html">Chairs</a></li>
+                    <li><a href="custom-orders.html">Custom Furniture</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>CONTACT US</h3>
+                <p><i class="fas fa-phone-alt"></i> +91 9351582983</p>
+                <p><i class="fas fa-phone-alt"></i> +91 8946871958</p>
+                <p><i class="fab fa-whatsapp"></i> +91 8946871958</p>
+                <p><i class="fas fa-map-marker-alt"></i>Behind H/180,Riico Industrial Area, Mandore, <br>Jodhpur, Rajasthan</p>
+                <p><i class="fas fa-envelope"></i> hanumanart1990@gmail.com</p>
+            </div>
+
+            <div class="footer-col map-col">
+                <h3>VISIT US</h3>
+                <div class="map-placeholder" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.2652941737656!2d73.06605873197823!3d26.381124316200065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394193004f26b99f%3A0x722ebe2538f997a5!2sHanuman%20Arts!5e0!3m2!1sen!2sin!4v1778594213946!5m2!1sen!2sin" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" 
+                        width="100%" 
+                        height="100%">
+                    </iframe>
+                    <div class="map-hours">Open Daily: 9:00 AM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Hanuman Art. All Rights Reserved.</p>
+            <a href="#" class="scroll-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </footer>
+
+    <script src="script.js?v=1.4"></script>
+</body>
+</html>

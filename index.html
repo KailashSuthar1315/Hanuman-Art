@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hanuman Art - Handcrafted Wooden Furniture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=1.4">
+    
+    <style>
+        .nav-menu ul li.dropdown {
+            position: relative;
+        }
+
+        .nav-menu ul li .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(15px);
+            background-color: #120d0a; 
+            border: 1px solid #231b15;
+            border-top: 2px solid #8b6b3d; 
+            min-width: 210px;
+            padding: 8px 0;
+            list-style: none;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            z-index: 100000;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            border-radius: 0 0 4px 4px;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        /* Displays menu cleanly on desktop hover states */
+        .nav-menu ul li.dropdown:hover .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .nav-menu ul li .dropdown-menu li {
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+        }
+
+        .nav-menu ul li .dropdown-menu li a {
+            color: #eae5df !important;
+            padding: 10px 20px !important;
+            display: block !important;
+            font-size: 0.82rem !important;
+            font-weight: 400 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+            text-align: left !important;
+            border: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .nav-menu ul li .dropdown-menu li a:hover {
+            color: #ffffff !important;
+            background-color: #8b6b3d !important; 
+            padding-left: 25px !important; 
+        }
+
+        /* Rotation physics toggle for nav arrows */
+        .nav-menu ul li.dropdown a i {
+            font-size: 0.72rem;
+            margin-left: 4px;
+            transition: transform 0.3s ease;
+        }
+        .nav-menu ul li.dropdown:hover > a i {
+            transform: rotate(180deg);
+            color: #8b6b3d;
+        }
+
+        /* ================= ADVANCED RESPONSIVE ENGINE (MOBILE FIXES) ================= */
+        @media (max-width: 768px) {
+            .main-header {
+                z-index: 999990 !important;
+            }
+
+            .mobile-menu-toggle {
+                display: block !important;
+                position: relative !important;
+                z-index: 999999 !important;
+                background: transparent !important;
+                border: none !important;
+                color: #b38642 !important;
+                font-size: 1.75rem !important;
+                cursor: pointer !important;
+                padding: 10px !important;
+            }
+
+            .nav-menu {
+                position: fixed !important;
+                top: 0 !important;
+                right: -100% !important;
+                width: 280px !important;
+                height: 100vh !important;
+                background-color: rgba(26, 15, 8, 0.98) !important;
+                backdrop-filter: blur(10px) !important;
+                -webkit-backdrop-filter: blur(10px) !important;
+                padding: 100px 30px 40px !important;
+                box-shadow: -5px 0 25px rgba(0,0,0,0.5) !important;
+                z-index: 999995 !important;
+                display: block !important;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+                overflow-y: auto !important;
+            }
+
+            .nav-menu.active {
+                right: 0 !important;
+            }
+
+            .nav-menu ul {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 15px !important;
+                display: flex !important;
+            }
+            .nav-menu a {
+                font-size: 1.1rem !important;
+                color: #ffffff !important;
+                display: block !important;
+                width: 100% !important;
+                padding: 10px 0 !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            }
+
+            /* 🛠️ FIXED INTERNAL CSS OVERRIDE TO STOP INITIAL AUTO-OPEN EXPANSIONS */
+            .nav-menu ul li .dropdown-menu {
+                position: relative !important; 
+                top: 0 !important; 
+                left: 0 !important; 
+                transform: none !important; 
+                display: none !important; 
+                visibility: hidden !important;
+                opacity: 0 !important; 
+                background-color: rgba(255, 255, 255, 0.03) !important;
+                border: none !important; 
+                border-left: 2px solid #8b6b3d !important; 
+                box-shadow: none !important;
+                padding: 5px 0 5px 15px !important;
+                margin-top: 10px !important;
+                min-width: auto !important;
+                width: 100% !important;
+            }
+
+            /* 🛠️ REVEALS MOBILE ACCORDION ACCORDING TO SCRIPT LOGIC */
+            .nav-menu ul li.dropdown.open-active .dropdown-menu {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+
+            .nav-menu ul li .dropdown-menu li a {
+                padding: 6px 0 !important;
+                font-size: 0.9rem !important;
+                color: #cccccc !important;
+                text-transform: capitalize !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <img src="images/logo1.jpeg" alt="Hanuman Arts Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>HANUMAN ART</h1>
+                    <p>Handcrafted Wooden Furniture</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="mobileNavMenu">
+                <ul>
+                    <li><a href="index.html" class="active">HOME</a></li>
+                    <li class="dropdown">
+                        <a href="products.html" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            PRODUCTS 
+                            <span class="mobile-arrow-trigger" style="padding: 10px 15px; margin-left: auto; display: inline-block; cursor: pointer;">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="beds.html">Luxury Beds</a></li>
+                            <li><a href="sofas.html">Sofa Sets</a></li>
+                            <li><a href="dining.html">Dining Sets</a></li>
+                            <li><a href="chairs.html">Premium Chairs</a></li>
+                            <li><a href="doors.html">Carved Doors</a></li>
+                            <li><a href="wardrobes.html">Wardrobes & Almirahs</a></li>
+                            <li><a href="dressing.html">Dressing Tables</a></li>
+                            <li><a href="sideboards.html">Sideboards & Consoles</a></li>
+                            <li><a href="coffee-tables.html">Center Tables</a></li>
+                            <li><a href="custom-orders.html">Custom Orders</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">ABOUT US</a></li>
+                    <li><a href="gallery.html">GALLERY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+            <a href="https://wa.me/918946871958" class="btn-whatsapp-top" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/hero-section.png');">
+        <button class="slider-arrow prev-arrow"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-arrow next-arrow"><i class="fas fa-chevron-right"></i></button>
+        
+        <div class="container hero-content">
+            <h4>HANDCRAFTED</h4>
+            <h2>WOODEN FURNITURE</h2>
+            <h3>MADE WITH QUALITY & TRUST</h3>
+            <p>Hanuman Art brings you the perfect blend of tradition, craftsmanship and modern design.</p>
+            <div class="hero-buttons">
+                <a href="products.html" class="btn-primary">VIEW PRODUCTS</a>
+                <a href="https://wa.me/918946871958?text=Hello%20Hanuman%20Art,%20I%20am%20visiting%20your%20website%20and%20want%20to%20request%20a%20custom%20price%20quote." class="btn-secondary" target="_blank">
+                    <i class="fab fa-whatsapp"></i> GET QUOTE ON WHATSAPP
+                </a>
+            </div>
+        </div>
+
+        <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <section class="categories-section container">
+        <div class="section-title">
+            <h2>SHOP BY CATEGORIES</h2>
+            <div class="divider">♦</div>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-img-box">
+                    <img src="images/bed.png" alt="Beds">
+                    <div class="category-icon"><i class="fas fa-bed"></i></div>
+                </div>
+                <h3>BEDS</h3>
+                <a href="beds.html" class="view-more">View More <i class="fas fa-long-arrow-alt-right"></i></a>
+            </div>
+            <div class="category-card">
+                <div class="category-img-box">
+                    <img src="images/sofa.jpeg" alt="Sofas">
+                    <div class="category-icon"><i class="fas fa-couch"></i></div>
+                </div>
+                <h3>SOFAS</h3>
+                <a href="sofas.html" class="view-more">View More <i class="fas fa-long-arrow-alt-right"></i></a>
+            </div>
+            <div class="category-card">
+                <div class="category-img-box">
+                    <img src="images/dinningtable.png" alt="Dining Tables">
+                    <div class="category-icon"><i class="fas fa-utensils"></i></div>
+                </div>
+                <h3>DINING TABLES</h3>
+                <a href="dining.html" class="view-more">View More <i class="fas fa-long-arrow-alt-right"></i></a>
+            </div>
+            <div class="category-card">
+                <div class="category-img-box">
+                    <img src="images/chairs.png" alt="Chairs">
+                    <div class="category-icon"><i class="fas fa-chair"></i></div>
+                </div>
+                <h3>CHAIRS</h3>
+                <a href="chairs.html" class="view-more">View More <i class="fas fa-long-arrow-alt-right"></i></a>
+            </div>
+            <div class="category-card">
+                <div class="category-img-box">
+                    <img src="images/customhome.jpeg" alt="Custom Furniture">
+                    <div class="category-icon"><i class="fas fa-tools"></i></div>
+                </div>
+                <h3>CUSTOM FURNITURE</h3>
+                <a href="custom-orders.html" class="view-more">View More <i class="fas fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-choose-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>WHY CHOOSE HANUMAN ART?</h2>
+                <div class="divider">♦</div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-tree"></i></div>
+                    <h3>Premium Quality Wood</h3>
+                    <p>We use the best quality wood for long-lasting furniture.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-user-cog"></i></div>
+                    <h3>Expert Craftsmanship</h3>
+                    <p>Skilled hands with years of experience in creating masterpieces.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-pencil-ruler"></i></div>
+                    <h3>Custom Design</h3>
+                    <p>Get furniture made as per your space and style.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
+                    <h3>Timely Delivery</h3>
+                    <p>On-time delivery with safe packaging and handling.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-tags"></i></div>
+                    <h3>Affordable Pricing</h3>
+                    <p>Premium quality furniture at the best possible prices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-section container">
+        <div class="section-title">
+            <h2>OUR FEATURED PRODUCTS</h2>
+            <div class="divider">♦</div>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="images/bed1.png" alt="Royal Wooden Bed" class="product-img">
+                <h3>Royal Wooden Bed</h3>
+                <a href="https://wa.me/918946871958?text=Hello%20Hanuman%20Arts,%20I%20am%20interested%20in%20the%20featured%20Royal%20Wooden%20Bed%20shown%20on%20your%20homepage." class="btn-enquire" target="_blank">
+                    <i class="fab fa-whatsapp"></i> ENQUIRE ON WHATSAPP
+                </a>
+            </div>
+            <div class="product-card">
+                <img src="images/pre-sofa.png" alt="Premium Wooden Sofa Set" class="product-img">
+                <h3>Premium Wooden Sofa Set</h3>
+                <a href="https://wa.me/918946871958?text=Hello%20Hanuman%20Arts,%20I%20am%20interested%20in%20the%20featured%20Premium%20Wooden%20Sofa%20Set%20shown%20on%20your%20homepage." class="btn-enquire" target="_blank">
+                    <i class="fab fa-whatsapp"></i> ENQUIRE ON WHATSAPP
+                </a>
+            </div>
+            <div class="product-card">
+                <img src="images/6 Seater Dining Table.jpeg" alt="6 Seater Dining Table" class="product-img">
+                <h3>6 Seater Dining Table</h3>
+                <a href="https://wa.me/918946871958?text=Hello%20Hanuman%20Arts,%20I%20am%20interested%20in%20the%20featured%206%20Seater%20Dining%20Table%20shown%20on%20your%20homepage." class="btn-enquire" target="_blank">
+                    <i class="fab fa-whatsapp"></i> ENQUIRE ON WHATSAPP
+                </a>
+            </div>
+            <div class="product-card">
+                <img src="images/sofa7.png" alt="Teak Wood Sofa" class="product-img">
+                <h3>Teak Wood Sofa</h3>
+                <a href="https://wa.me/918946871958?text=Hello%20Hanuman%20Arts,%20I%20am%20interested%20in%20the%20featured%20Teak%20Wood%20Sofa%20shown%20on%20your%20homepage." class="btn-enquire" target="_blank">
+                    <i class="fab fa-whatsapp"></i> ENQUIRE ON WHATSAPP
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-banner" style="background-image: linear-gradient(rgba(44, 24, 9, 0.9), rgba(44, 24, 9, 0.9)), url('images/carpenter-bg.jpg');">
+        <div class="container about-banner-grid">
+            <div class="about-banner-text">
+                <h2>ABOUT HANUMAN ART</h2>
+                <p>Hanuman Art is a trusted name in handcrafted wooden furniture. With years of experience and a passion for perfection, we create furniture that adds beauty, comfort and strength to your home.</p>
+                
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <i class="fas fa-award"></i>
+                        <h4>35+</h4>
+                        <p>Years of Experience</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-users"></i>
+                        <h4>1000+</h4>
+                        <p>Happy Customers</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>1000+</h4>
+                        <p>Projects Completed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-banner-action">
+                <a href="about.html" class="btn-gold-outline">READ MORE ABOUT US</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="work-testimonial-section container">
+        <div class="work-column">
+            <h3>OUR WORK</h3>
+            <div class="work-gallery">
+                <img src="images/bed1.png" alt="Work 1">
+                <img src="images/customhome.jpeg" alt="Work 2">
+                <img src="images/sofa.jpeg" alt="Work 3">
+                <img src="images/almirah.png" alt="Work 4">
+            </div>
+            <a href="products.html" class="btn-gallery-view">VIEW FULL GALLERY</a>
+        </div>
+
+        <div class="testimonial-column">
+            <h3>WHAT OUR CUSTOMERS SAY</h3>
+            <div class="testimonial-slider" style="position: relative; overflow: hidden;">
+                <button class="test-arrow left-test"><i class="fas fa-chevron-left"></i></button>
+                
+                <div class="testimonial-card active">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Ordered a custom storage bed frame and the wood quality is exceptional. It is incredibly heavy, solid, and the finishing is smooth with no rough edges. Exceptional craftsmanship!"</p>
+                    <p class="customer-name">– Ramesh Sharma, Jodhpur</p>
+                </div>
+
+                <div class="testimonial-card" style="display: none;">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">The premium Teak wood sofa set we purchased exceeded our expectations. The hand-carving work on the frame looks like a piece of art. Highly recommend them for authentic Jodhpur furniture."</p>
+                    <p class="customer-name">– Vikram Singh, Jaipur</p>
+                </div>
+
+                <div class="testimonial-card" style="display: none;">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Best customization service. They designed our 6-seater dining table exactly how we wanted."</p>
+                    <p class="customer-name">– Mahendra Suthar, Nagore</p>
+                </div>
+
+                <button class="test-arrow right-test"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="custom-cta-banner">
+        <div class="container cta-flex">
+            <h2>WANT CUSTOM FURNITURE?<br><span>Share your requirements with us and get the best quote.</span></h2>
+            <div class="cta-buttons">
+                <a href="https://wa.me/918946871958?text=Hello%20Hanuman%20Art,%20I%20am%20inquiring%20about%20your%20bespoke%20custom%20furniture%20manufacturing." class="btn-green-cta" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WHATSAPP NOW
+                </a>
+                <a href="tel:+918946871958" class="btn-call-cta">
+                    <i class="fas fa-phone-alt"></i> CALL NOW
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <div class="logo-area">
+                    <img src="images/logo1.jpeg" alt="Hanuman Art Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h2>HANUMAN ART</h2>
+                        <p>Handcrafted Wooden Furniture</p>
+                    </div>
+                </div>
+                <p class="footer-desc">Quality, trust and perfection in every piece of wood.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61591804678065"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/hanuman_art_furniture/?hl=en"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/918946871958"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>OUR PRODUCTS</h3>
+                <ul>
+                    <li><a href="beds.html">Beds</a></li>
+                    <li><a href="sofas.html">Sofas</a></li>
+                    <li><a href="dining.html">Dining Tables</a></li>
+                    <li><a href="chairs.html">Chairs</a></li>
+                    <li><a href="custom-orders.html">Custom Furniture</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>CONTACT US</h3>
+                <p><i class="fas fa-phone-alt"></i> +91 9351582983</p>
+                <p><i class="fas fa-phone-alt"></i> +91 9001842800</p>
+                <p><i class="fas fa-phone-alt"></i> +91 8946871958</p>
+                <p><i class="fab fa-whatsapp"></i> +91 8946871958</p>
+                <p><i class="fas fa-map-marker-alt"></i> Behind H/180,Riico Industrial Area, Mandore, <br>Jodhpur, Rajasthan - 342001</p>
+                <p><i class="fas fa-envelope"></i> hanumanart1990@gmail.com</p>
+            </div>
+
+            <div class="footer-col map-col">
+                <h3>VISIT US</h3>
+                <div class="map-placeholder" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.2652941737656!2d73.06605873197823!3d26.381124316200065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394193004f26b99f%3A0x722ebe2538f997a5!2sHanuman%20Arts!5e0!3m2!1sen!2sin!4v1778594213946!5m2!1sen!2sin" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" 
+                        width="100%" 
+                        height="100%">
+                    </iframe>
+                    <div class="map-hours">Open Daily: 9:00 AM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Hanuman Art. All Rights Reserved.</p>
+            <a href="#" class="scroll-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </footer>
+
+    <script src="script.js?v=1.4"></script>
+</body>
+</html>

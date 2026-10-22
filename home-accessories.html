@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Accessories & More - Hanuman Art</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .category-page-bg {
+            background-color: #fcfbfa;
+            padding: 40px 0 80px;
+            min-height: 300px;
+        }
+
+        .back-nav {
+            margin-bottom: 25px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted, #777);
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-link:hover {
+            color: var(--accent-gold, #8b6b3d);
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .catalog-card {
+            background: #ffffff;
+            border: 1px solid #eae5df;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .catalog-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold, #8b6b3d);
+            box-shadow: 0 10px 20px rgba(139, 107, 61, 0.08);
+        }
+
+        .catalog-img-box {
+            height: 220px;
+            overflow: hidden;
+            background: #fafaf9;
+            position: relative;
+        }
+
+        .catalog-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .catalog-card:hover .catalog-img-box img {
+            transform: scale(1.03);
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(18, 13, 10, 0.85);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 2px;
+        }
+
+        .catalog-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .catalog-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: var(--primary-dark, #120d0a);
+            margin: 0 0 6px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .catalog-price-tag {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-gold, #8b6b3d);
+            display: block;
+        }
+
+        .category-loading-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 15px;
+            color: #777;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Product details popup */
+        .details-modal-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(18, 13, 10, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .modal-container {
+            background: #ffffff;
+            width: 90%;
+            max-width: 880px;
+            max-height: 90vh;
+            border-radius: 6px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ffffff;
+            border: none;
+            font-size: 1.8rem;
+            color: #120d0a;
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            color: #8b6b3d;
+        }
+
+        .modal-body-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .modal-image-pane {
+            background: #fdfdfd;
+            border-right: 1px solid #f2ede8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 450px;
+            overflow: hidden;
+        }
+
+        .modal-image-pane img {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-details-pane {
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-details-pane h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            color: #120d0a;
+            margin: 0 0 10px;
+            line-height: 1.2;
+        }
+
+        .modal-price {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #8b6b3d;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .specs-table-box {
+            border-top: 1px solid #eae5df;
+            margin-bottom: 30px;
+            padding-top: 15px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f9f7f5;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #120d0a;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .spec-value {
+            color: #666;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-modal-wa,
+        .btn-modal-custom {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-modal-wa {
+            background-color: #25D366;
+        }
+
+        .btn-modal-wa:hover {
+            background-color: #1ebd58;
+        }
+
+        .btn-modal-custom {
+            background-color: #120d0a;
+            border: 1px solid #120d0a;
+            padding: 13px;
+            font-weight: 600;
+        }
+
+        .btn-modal-custom:hover {
+            background-color: transparent;
+            color: #120d0a;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body-split {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-container {
+                width: 100%;
+                max-height: 92vh;
+            }
+
+            .modal-image-pane {
+                min-height: 220px;
+                max-height: 300px;
+                border-right: none;
+                border-bottom: 1px solid #f2ede8;
+            }
+
+            .modal-image-pane img {
+                min-height: 220px;
+                max-height: 300px;
+            }
+
+            .modal-details-pane {
+                padding: 25px 20px;
+            }
+
+            .modal-details-pane h2 {
+                font-size: 1.5rem;
+                padding-right: 25px;
+            }
+
+            .catalog-grid {
+                grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+                gap: 14px;
+            }
+
+            .catalog-img-box {
+                height: 180px;
+            }
+
+            .catalog-info {
+                padding: 12px 9px;
+            }
+
+            .catalog-info h3 {
+                font-size: 0.85rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.7rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <img src="images/logo1.jpeg" alt="Hanuman Art Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>HANUMAN ART</h1>
+                    <p>Handcrafted Wooden Furniture</p>
+                </div>
+            </div>
+
+            <button class="mobile-menu-toggle" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="products.html" class="active">PRODUCTS</a></li>
+                    <li><a href="about.html">ABOUT US</a></li>
+                    <li><a href="gallery.html">GALLERY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+
+            <a href="https://wa.me/918946871958" class="btn-whatsapp-top" target="_blank" rel="noopener">
+                <i class="fab fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-section" style="height: 35vh; background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/carpenter-bg.jpg'); background-size: cover; background-position: center;">
+        <div class="container hero-content" style="padding-top: 100px; text-align: center;">
+            <h4 style="color: var(--accent-gold); letter-spacing: 4px; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;">
+                HANDCRAFTED EXCELLENCE
+            </h4>
+            <h2 style="font-size: 2.6rem; letter-spacing: 1px; color: #fff; font-family: var(--font-heading);">
+                HOME ACCESSORIES &amp; MORE
+            </h2>
+            <div style="width: 40px; height: 2px; background: var(--accent-gold); margin: 12px auto 0;"></div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <div class="category-page-bg">
+        <main class="container">
+
+            <div class="back-nav">
+                <a href="products.html" class="back-link">
+                    <i class="fas fa-chevron-left"></i> Back to All Collections
+                </a>
+            </div>
+
+           <!-- Products are loaded from Supabase by category-products.js -->
+<div class="catalog-grid" aria-live="polite"></div>
+
+        </main>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="details-modal-overlay" id="productDetailModal">
+        <div class="modal-container">
+            <button type="button" class="close-modal-btn" id="closeModalBtn" aria-label="Close product details">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="modal-body-split">
+                <div class="modal-image-pane">
+                    <img src="" id="modalImg" alt="Product image">
+                </div>
+
+                <div class="modal-details-pane">
+                    <h2 id="modalTitle">Product Title</h2>
+                    <span class="modal-price" id="modalPrice">Contact for price</span>
+
+                    <div class="specs-table-box">
+                        <div class="spec-row">
+                            <span class="spec-label">Material</span>
+                            <span class="spec-value" id="modalMaterial">Not specified</span>
+                        </div>
+
+                        <div class="spec-row">
+                            <span class="spec-label">Size</span>
+                            <span class="spec-value" id="modalSize">Not specified</span>
+                        </div>
+
+                        <div class="spec-row">
+                            <span class="spec-label">Finish</span>
+                            <span class="spec-value" id="modalFinish">Not specified</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <a href="https://wa.me/918946871958" id="waInquiryBtn" class="btn-modal-wa" target="_blank" rel="noopener">
+                            <i class="fab fa-whatsapp"></i> Book Now via WhatsApp
+                        </a>
+
+                        <a href="https://wa.me/918946871958" id="waCustomBtn" class="btn-modal-custom" target="_blank" rel="noopener">
+                            <i class="fas fa-sliders-h"></i> Request Custom Size
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+
+            <div class="footer-col brand-col">
+                <div class="logo-area">
+                    <img src="images/logo1.jpeg" alt="Hanuman Art Logo" class="logo-img">
+                    <div class="logo-text">
+                        <h2>HANUMAN ART</h2>
+                        <p>Handcrafted Wooden Furniture</p>
+                    </div>
+                </div>
+
+                <p class="footer-desc">Quality, trust and perfection in every piece of wood.</p>
+
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61591804678065" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/hanuman_art_furniture/?hl=en" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/918946871958" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>OUR PRODUCTS</h3>
+                <ul>
+                    <li><a href="beds.html">Beds</a></li>
+                    <li><a href="sofas.html">Sofas</a></li>
+                    <li><a href="dining.html">Dining Tables</a></li>
+                    <li><a href="chairs.html">Chairs</a></li>
+                    
+                    <li><a href="custom-orders.html">Custom Furniture</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>CONTACT US</h3>
+                <p><i class="fas fa-phone-alt"></i> +91 93515 82983</p>
+                <p><i class="fas fa-phone-alt"></i> +91 89468 71958</p>
+                <p><i class="fab fa-whatsapp"></i> +91 89468 71958</p>
+                <p>
+                    <i class="fas fa-map-marker-alt"></i>
+                    Behind H/180, Riico Industrial Area, Mandore,
+                    <br>Jodhpur, Rajasthan
+                </p>
+                <p><i class="fas fa-envelope"></i> hanumanart1990@gmail.com</p>
+            </div>
+
+            <div class="footer-col map-col">
+                <h3>VISIT US</h3>
+                <div class="map-placeholder">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.2652941737656!2d73.06605873197823!3d26.381124316200065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394193004f26b99f%3A0x722ebe2538f997a5!2sHanuman%20Arts!5e0!3m2!1sen!2sin!4v1778594213946!5m2!1sen!2sin"
+                        title="Find Hanuman Art on Google Maps"
+                        width="100%"
+                        height="100%"
+                        style="border:0; display:block;"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div class="map-hours">Open Daily: 9:00 AM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Hanuman Art. All Rights Reserved.</p>
+            <a href="#" class="scroll-to-top" aria-label="Scroll to top">
+                <i class="fas fa-chevron-up"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Modal close behavior. Supabase product cards open the modal themselves. -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("productDetailModal");
+            const closeModalBtn = document.getElementById("closeModalBtn");
+
+            function closeModal() {
+                modal.style.opacity = "0";
+
+                setTimeout(function() {
+                    modal.style.display = "none";
+                }, 300);
+            }
+
+            closeModalBtn.addEventListener("click", closeModal);
+
+            modal.addEventListener("click", function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener("keydown", function(event) {
+                if (event.key === "Escape" && modal.style.display === "flex") {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+    <!-- Supabase and existing shared category loader -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="category-products.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
